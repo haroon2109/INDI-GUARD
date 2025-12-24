@@ -34,9 +34,13 @@ def fetch_weather_data(lat, lon):
     Fetches current weather data from Open-Meteo API.
     """
     try:
-        # In a real app, you might check st.secrets here
-        # api_key = st.secrets["api_keys"]["openweather"] 
-        
+        # Secure API Handling: Check Streamlit Secrets first, then Environment Variables
+        try:
+            import streamlit as st
+            # api_key = st.secrets.get("OPENWEATHER_API_KEY") # Example for protected APIs
+        except ImportError:
+            pass
+            
         params = {
             "latitude": lat,
             "longitude": lon,
@@ -44,6 +48,7 @@ def fetch_weather_data(lat, lon):
             "hourly": "temperature_2m,relativehumidity_2m,rain,surface_pressure,windspeed_10m",
             "timezone": "auto"
         }
+        # if api_key: params['appid'] = api_key
         response = requests.get(OPEN_METEO_URL, params=params, timeout=5)
         data = response.json()
         

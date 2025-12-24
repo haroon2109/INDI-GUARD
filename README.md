@@ -1,61 +1,76 @@
-# 🛡️ IndiGuard Platform
-### AI-Powered Disaster Management & Early Warning System
+# 🛡️ INDI-GUARD: Multi-Hazard Disaster Warning & Analytics Platform
 
-**IndiGuard Platform** is a comprehensive, real-time multi-hazard disaster warning and analytics system designed for India. It integrates Impact-Based Forecasting (IBF), live weather/seismic data, and advanced geospatial analytics to empower citizens, officials, and researchers.
+**Indi-Guard** is a high-performance, open-source intelligence platform designed to provide real-time monitoring, predictive analytics, and "What-If" scenario modeling for multi-hazard disasters across India. 
 
-## Features
-- **Predict Risk**: Estimates disaster risk (Low/Medium/High) based on Rainfall, Temperature, and Humidity.
-- **Region-Specific**: Alerts tailored to specific regions.
-- **Visual Dashboard**: Interactive charts and trends using Streamlit.
-- **Offline**: Works entirely on your local machine with no cloud dependencies.
+Running on a Streamlit architecture, it bridges the gap between raw meteorological data and actionable civil defense insights.
 
-## Installation
+---
 
-1. **Clone/Download** this repository.
-2. **Install Dependencies**:
+## 🚀 Key Features
+* **Live Hazard Mapping:** Real-time visualization of floods, cyclones, and heatwaves across Indian states using Folium/Leafmap.
+* **What-If Simulation:** Interactive environment parameters (Rainfall, Wind Speed, Soil Moisture) that allow users to simulate disaster intensity and view impact reports.
+* **Impact-Based Analytics:** Dynamic reporting that calculates population vulnerability and infrastructure risk based on simulated environmental shifts.
+* **Official India Branding:** UI designed following GIGW (Guidelines for Indian Government Websites) standards.
+
+---
+
+## 🛠️ Tech Stack
+* **Frontend/App Framework:** [Streamlit](https://streamlit.io/)
+* **Geospatial Analysis:** [Folium](https://python-visualization.github.io/folium/) & [Geopandas](https://geopandas.org/)
+* **Data Processing:** Pandas, NumPy
+* **Data Sources:** Open-source APIs (IMD/OpenWeather/GDACS)
+* **Deployment:** Streamlit Community Cloud / Docker
+
+---
+
+## 📥 Installation & Local Setup
+
+To run this project on your local machine (`localhost:8501`), follow these steps:
+
+1. **Clone the Repository:**
    ```bash
-   pip install pandas numpy scikit-learn streamlit plotly joblib watchdog
+   git clone https://github.com/haroon2109/INDI-GUARD.git
+   cd INDI-GUARD
    ```
 
-## Usage
-
-1. **Generate Data** (Optional, if starting fresh):
+2. **Create a Virtual Environment (Recommended):**
    ```bash
-   python generate_data.py
+   python -m venv venv
+   # On Windows use:
+   venv\Scripts\activate
+   # On Mac/Linux use:
+   # source venv/bin/activate
    ```
-   This creates a synthetic dataset in `data/disaster_data.csv`.
 
-2. **Train Model**:
+3. **Install Dependencies:**
    ```bash
-   python train_model.py
+   pip install -r requirements.txt
    ```
-   This processes the data and saves the best model to the `model/` directory.
 
-3. **Run Web App**:
+4. **Launch the Platform:**
    ```bash
    streamlit run app.py
    ```
-   The dashboard will open in your browser (usually at `http://localhost:8501`).
-
-## Project Structure
-- `data/`: Contains the dataset.
-- `model/`: Stores trained models and encoders.
-- `app.py`: The web dashboard application.
-- `train_model.py`: Script to train and save the ML model.
-- `generate_data.py`: Helper to create dummy data.
-
-## Demo Inputs
-- **Region**: South
-- **Rainfall**: 250 mm
-- **Temperature**: 30 °C
-- **Humidity**: 85 %
-- **Expected Result**: **High Risk** (due to high rainfall in South region).
-
-## Resume Bullet Points
-- Built a **Smart Disaster Alert System** using **Python, Scikit-Learn, and Streamlit**, achieving **90%+ accuracy** in risk classification.
-- Implemented **Random Forest & Logistic Regression** models to predict disaster probability based on meteorological data.
-- Developed an interactive **Web Dashboard** with real-time risk visualization and region-based alert logic.
-- Optimized for **offline usage**, ensuring deployment capability in remote areas with limited connectivity.
 
 ---
-*Created by Antigravity*
+
+## 📊 Analytics Framework
+The platform utilizes a Risk Matrix approach to categorize hazards:
+* **Low Risk:** Routine monitoring.
+* **Moderate Risk:** Heightened awareness required.
+* **Critical Risk:** Immediate evacuation/action protocols recommended.
+
+---
+
+## 🛤️ Senior Project Roadmap (Future Enhancements)
+- [ ] **ISRO Bhuvan Integration:** Direct WMS tile integration for high-res Indian satellite imagery.
+- [ ] **Offline Mode:** PWA implementation for low-bandwidth disaster zones.
+- [ ] **Multi-Lingual Support:** Regional language toggles (Hindi, Tamil, Bengali, etc.).
+- [ ] **CAP Compliance:** Integration with the Common Alerting Protocol for official government sync.
+
+---
+
+## 🤝 Contributing
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+*Developed with ❤️ for a Resilient India.*
