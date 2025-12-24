@@ -1,5 +1,7 @@
 # 🛡️ INDI-GUARD: Multi-Hazard Disaster Warning & Analytics Platform
 
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://indi-guard.streamlit.app/)
+
 **Indi-Guard** is a high-performance, open-source intelligence platform designed to provide real-time monitoring, predictive analytics, and "What-If" scenario modeling for multi-hazard disasters across India. 
 
 Running on a Streamlit architecture, it bridges the gap between raw meteorological data and actionable civil defense insights.
