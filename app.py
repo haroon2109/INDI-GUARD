@@ -47,7 +47,8 @@ def load_resources():
         season_enc = joblib.load('model/season_encoder.pkl')
         target_enc = joblib.load('model/target_encoder.pkl')
         scaler = joblib.load('model/scaler.pkl')
-        df = pd.read_csv('data/disaster_data.csv')
+        # Optimized Load: Parquet
+        df = pd.read_parquet('data/disaster_data.parquet')
         idrn = pd.read_csv('data/idrn_mock.csv')
         return model, region_enc, season_enc, target_enc, scaler, df, idrn
     except Exception as e:
@@ -345,6 +346,41 @@ folium.TileLayer(
     name='Street View'
 ).add_to(m)
 
+# --- LIVE DATA LAYER (Cached) ---
+@st.cache_data(ttl=600)
+def get_live_weather(lat, lon):
+    return fetch_weather_data(lat, lon)
+
+@st.cache_data(ttl=3600) # Cache seismic data for longer
+def get_live_seismic():
+    return fetch_seismic_data()
+
+# Fetch Data
+if use_live:
+    try:
+        # Use cached wrapper
+        w_data = get_live_weather(lat_ref, lon_ref)
+        s_data = get_live_seismic()
+        
+        if w_data:
+            # Parse Weather
+            rainfall = w_data.get('rain', 0.0)
+            temperature = w_data.get('temp', 25.0)
+            humidity = w_data.get('humidity', 50)
+            wind_speed = w_data.get('wind', 10.0)
+            pressure = w_data.get('pressure', 1010.0)
+            status_emoji = "🟢"
+            st.toast("Live Weather & Seismic Data Synced", icon="🛰️") # Contextual Alert
+        else:
+            status_emoji = "🟠" # Fallback
+            st.toast("Using Cached Data (Network weak)", icon="⚠️")
+            
+    except Exception as e:
+        status_emoji = "🔴"
+        st.error(f"API Connection Failed: {e}")
+else:
+    status_emoji = "⚪" # Simulation Mode
+    st.toast("Simulation Mode Active - No Live Data", icon="🎮")
 # Stress Test Layer
 if run_stress:
     try:
@@ -594,15 +630,20 @@ with c2:
         st.download_button("📡 Download CAP (.xml)", cap_xml, "alert.cap")
     
     with c_d2:
-        # SitRep PDF
-        pdf_bytes = generate_sitrep(selected_region, current_risk, likelihood, vulnerability, threat, pop_density*5, recs)
-        st.download_button(
-            label="📄 Download SitRep (.pdf)",
-            data=pdf_bytes,
-            file_name=f"SitRep_{selected_region}_{datetime.now().date()}.pdf",
-            mime="application/pdf"
-        )
+        st.info("ℹ️ official reports available in sidebar")
 
 # Footer
 st.markdown("---")
 st.markdown(f"<div style='text-align: center; color: grey; font-size: 0.8em;'>Last Updated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')} | Data Sources: IMD, NCS, INCOIS, Mock IDRN</div>", unsafe_allow_html=True)
+
+# --- SIDEBAR LATE RENDER (For Reports) ---
+with st.sidebar:
+    st.markdown("### 🖨️ Situation Report")
+    pdf_bytes = generate_sitrep(selected_region, current_risk, likelihood, vulnerability, threat, pop_density*5, recs)
+    st.download_button(
+        label="📄 Download Full SitRep (.pdf)",
+        data=pdf_bytes,
+        file_name=f"SitRep_{selected_region}_{datetime.now().date()}.pdf",
+        mime="application/pdf",
+        help="Generate a one-page printable situation report for officials."
+    )

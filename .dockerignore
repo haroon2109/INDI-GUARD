@@ -1,0 +1,16 @@
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.env
+.venv
+.git
+.gitignore
+.streamlit/secrets.toml
+# Ignore heavy CSVs if we are using Parquet
+data/*.csv
+# Keep mock CSVs if needed, but disaster_data.csv is redundant
+data/disaster_data.csv

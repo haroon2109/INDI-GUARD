@@ -114,8 +114,13 @@ def generate_web_data(n_samples=3000):
             'PopulationDensity', 'InfrastructureIndex', 'PrimaryThreat', 'RiskLevel']
             
     df = pd.DataFrame(data, columns=cols)
-    df.to_csv('data/disaster_data.csv', index=False)
-    print(f"Indian Disaster Dataset generated: {n_samples} records at data/disaster_data.csv")
+    # Save to Parquet (Optimized)
+    output_path = 'data/disaster_data.parquet'
+    df.to_parquet(output_path, index=False)
+    print(f"✅ Synthetic Data Generated: {len(df)} records saved to {output_path}")
+    
+    # Optional: Save CSV for inspection if needed
+    # df.to_csv('data/disaster_data.csv', index=False)
 
 if __name__ == "__main__":
     generate_web_data()
