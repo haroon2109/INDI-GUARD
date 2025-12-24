@@ -1,0 +1,13 @@
+streamlit
+pandas
+joblib
+plotly
+scikit-learn
+fpdf
+requests
+folium
+streamlit-folium
+geopy
+leafmap
+geopandas
+shapely
